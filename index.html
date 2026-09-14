@@ -4,10 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aleph - 나의 한 페이지</title>
-    <!-- 카드 4: 브라우저 콘솔 404 파비콘 에러 방지 -->
+    <!-- 콘솔 404 파비콘 에러 방지 -->
     <link rel="icon" href="data:,">
     <style>
-        /* 카드 3: 가로 넘침(스크롤) 0건 방지 */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -26,7 +25,6 @@
             padding: 40px 20px;
         }
         
-        /* 카드 3: 1366x768 및 1920x1080 첫 화면 가시성을 위한 2단 레이아웃 */
         .first-screen {
             display: grid;
             grid-template-columns: 1fr 1.6fr;
@@ -46,17 +44,14 @@
             height: fit-content;
         }
         
-        /* 카드 4: 제목(Heading) 단계 건너뛰지 않음 (h1 -> h2 -> h3) */
         h1 { font-size: 1.8rem; margin-bottom: 12px; color: #111; }
         h2 { font-size: 1.3rem; margin-bottom: 24px; padding-bottom: 12px; border-bottom: 2px solid #eaeaea; color: #0056b3; }
         h3 { font-size: 1.1rem; color: #222; margin-bottom: 10px; }
         
-        /* 카드 4: 텍스트 대비율 4.5:1 이상 충족 (#444 사용) */
         p { font-size: 0.95rem; margin-bottom: 10px; color: #444; }
         
         .intro-panel p { line-height: 1.7; margin-bottom: 16px; }
         
-        /* 카드 4: 키보드(Tab) 초점 시각화 및 링크 보안 속성 대응 */
         .intro-panel a {
             color: #0056b3;
             font-weight: bold;
@@ -70,7 +65,6 @@
             outline-offset: 4px;
         }
         
-        /* 카드 2: 상황·행동·결과(SAR) 아이템 스타일 */
         .sar-item {
             background: #f8f9fa;
             border-left: 4px solid #0056b3;
@@ -80,9 +74,7 @@
             transition: background 0.2s;
         }
         .sar-item:last-child { margin-bottom: 0; }
-        .sar-item:focus {
-            outline: 2px solid #0056b3;
-            outline-offset: -2px;
+        .sar-item:focus-within {
             background: #f1f3f5;
         }
         .sar-item strong { 
@@ -91,13 +83,59 @@
             width: 45px;
         }
         .sar-item p { margin: 6px 0; font-size: 0.9rem; line-height: 1.5; color: #333; }
+
+        /* 카드 5: 상호작용 버튼 및 애니메이션 스타일 */
+        .expand-btn {
+            background: none;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            color: #444;
+            cursor: pointer;
+            margin-top: 10px;
+            font-family: inherit;
+        }
+        .expand-btn:hover { background: #e9ecef; }
+        /* 키보드 접근성 시각화 */
+        .expand-btn:focus {
+            outline: 2px solid #0056b3;
+            outline-offset: 2px;
+            background: #e9ecef;
+        }
+        
+        .expand-content {
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            margin-top: 0;
+            transition: max-height 0.3s ease-out, opacity 0.3s ease-out, margin-top 0.3s ease-out;
+        }
+        .expand-content.open {
+            max-height: 150px; 
+            opacity: 1;
+            margin-top: 10px;
+        }
+        .expand-content p {
+            color: #555;
+            background: #eef2f5;
+            padding: 10px 15px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+
+        /* 카드 5: 사용자의 큰 움직임 줄이기(Prefers Reduced Motion) 환경 존중 */
+        @media (prefers-reduced-motion: reduce) {
+            .expand-content {
+                transition: none !important;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="first-screen">
             
-            <!-- 카드 1: 대상과 목적이 명확한 소개 영역 -->
             <div class="panel intro-panel">
                 <h1>나의 한 페이지</h1>
                 <h2>소개</h2>
@@ -112,26 +150,32 @@
                 </a>
             </div>
 
-            <!-- 카드 2: 근거를 바탕으로 한 상황·행동·결과(SAR) 3개 -->
             <div class="panel">
                 <h2>경험과 강점</h2>
                 
-                <!-- 카드 4: tabindex="0" 추가로 키보드 Tab 이동 가능 -->
-                <div class="sar-item" tabindex="0">
+                <div class="sar-item">
                     <h3>1. 주어진 환경에 얽매이지 않는 효율성 추구</h3>
                     <p><strong>상황:</strong> 이상 데이터 검증 시 팀원들이 단순 텍스트 에디터(메모장)만을 사용하여 많은 시간을 소모하고 있었습니다.</p>
                     <p><strong>행동:</strong> 대용량 텍스트 처리와 패턴 검색에 유리한 특화 에디터(Sublime Text)를 직접 탐색하여 업무에 도입했습니다.</p>
                     <p><strong>결과:</strong> 이상 문자열을 빠르고 정확하게 찾아내어 데이터 검증 시간을 획기적으로 단축하고 유지보수 효율을 높였습니다.</p>
+                    
+                    <!-- 카드 5: 접근성을 고려한 상호작용 요소 -->
+                    <button class="expand-btn" aria-expanded="false" aria-controls="detail-1">
+                        상세 경험 펼치기 ▼
+                    </button>
+                    <div id="detail-1" class="expand-content">
+                        <p>💡 <strong>추가 맥락:</strong> 사용자가 입력하는 데이터 중에 이상한 문자열들이 들어오는 경우가 종종 발생했습니다. 다른 사람들은 공통 툴 폴더에 있는 프로그램들을 확인하지 않고 메모장만 썼지만, 저는 Sublime Text를 찾아 활용하여 검증 작업을 훨씬 쉽게 처리할 수 있었습니다.</p>
+                    </div>
                 </div>
                 
-                <div class="sar-item" tabindex="0">
+                <div class="sar-item">
                     <h3>2. 반복되는 문제의 문서화 및 체계화</h3>
                     <p><strong>상황:</strong> 데이터 오류 해결책이 구두로만 전달되어, 반복적으로 문제가 발생할 때마다 대응이 지연되었습니다.</p>
                     <p><strong>행동:</strong> 자주 발생하는 이상 데이터 유형과 정규식을 활용한 검증 방법을 마크다운 형태의 가이드 문서로 정리했습니다.</p>
                     <p><strong>결과:</strong> 문서화 이후 유사한 이슈가 발생했을 때, 팀 전체가 가이드를 바탕으로 즉각 대응하여 문제 해결 시간을 줄였습니다.</p>
                 </div>
 
-                <div class="sar-item" tabindex="0">
+                <div class="sar-item">
                     <h3>3. 새로운 기술 환경에 대한 빠른 실행력</h3>
                     <p><strong>상황:</strong> 나의 경험을 증명할 수 있는 웹 페이지를 외부에 신속하고 안정적으로 배포 및 공유해야 했습니다.</p>
                     <p><strong>행동:</strong> 복잡한 서버 설정 대신 코드 저장소(GitHub)와 호스팅 서비스(Vercel)를 연동하는 최신 배포 파이프라인을 학습해 적용했습니다.</p>
@@ -141,5 +185,28 @@
 
         </div>
     </div>
+
+    <!-- 카드 5: 상호작용을 처리하는 JavaScript (마우스 및 키보드 Enter/Space 기본 동작 지원) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const btn = document.querySelector('.expand-btn');
+            const content = document.getElementById(btn.getAttribute('aria-controls'));
+
+            btn.addEventListener('click', function() {
+                const isExpanded = btn.getAttribute('aria-expanded') === 'true';
+                
+                // 상태 토글
+                btn.setAttribute('aria-expanded', !isExpanded);
+                
+                if (!isExpanded) {
+                    content.classList.add('open');
+                    btn.innerHTML = '상세 경험 접기 ▲';
+                } else {
+                    content.classList.remove('open');
+                    btn.innerHTML = '상세 경험 펼치기 ▼';
+                }
+            });
+        });
+    </script>
 </body>
 </html>
