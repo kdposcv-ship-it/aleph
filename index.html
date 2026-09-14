@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aleph - 나의 한 페이지</title>
+    <!-- 결함 3 수정: 404 파비콘 콘솔 에러 방지 -->
+    <link rel="icon" href="data:,">
     <style>
-        /* 기본 설정 및 가로 넘침 방지 */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -16,7 +17,7 @@
             line-height: 1.5;
             color: #333;
             background-color: #f4f7f6;
-            overflow-x: hidden; /* 가로 스크롤 완벽 차단 */
+            overflow-x: hidden; 
         }
         .container {
             max-width: 1300px;
@@ -24,20 +25,17 @@
             padding: 20px;
         }
         
-        /* 1366x768 & 1920x1080 첫 화면 가시성을 위한 3단 레이아웃 */
         .first-screen {
             display: grid;
             grid-template-columns: 1fr 1.2fr 1fr;
             gap: 20px;
-            min-height: 600px; /* 1366x768 실 가시 영역 기준 */
+            min-height: 600px; 
         }
 
-        /* 1024px 이하 작은 화면에서는 세로로 스택되도록 유연성 제공 */
         @media (max-width: 1024px) {
             .first-screen { grid-template-columns: 1fr; min-height: auto; }
         }
 
-        /* 공통 패널 스타일 */
         .panel {
             background: #fff;
             border-radius: 10px;
@@ -52,10 +50,8 @@
         h3 { font-size: 0.95rem; color: #333; margin-top: 10px; margin-bottom: 5px; }
         p { font-size: 0.9rem; margin-bottom: 10px; color: #555; }
         
-        /* 1. 소개 영역 */
         .intro-panel p { font-size: 0.95rem; line-height: 1.6; }
         
-        /* 2. 활동 영역 (압축된 SAR) */
         .sar-item {
             background: #f8f9fa;
             border-left: 3px solid #0056b3;
@@ -67,7 +63,6 @@
         .sar-item strong { color: #222; font-size: 0.85rem; }
         .sar-item p { margin: 4px 0; font-size: 0.85rem; line-height: 1.4; }
         
-        /* 3. 근거 영역 */
         .evidence-box {
             background-color: #2d2d2d;
             color: #a9b7c6;
@@ -78,14 +73,20 @@
             overflow-x: auto;
             flex-grow: 1;
         }
+        /* 결함 1 수정: Tab 이동 시 초점 시각화 */
+        .evidence-box:focus {
+            outline: 2px solid #0056b3;
+            outline-offset: -2px;
+        }
+
+        /* 결함 2 수정: 명암비 개선 (#888 -> #bbbbbb) */
         .evidence-title {
-            color: #888;
+            color: #bbbbbb; 
             font-size: 0.75rem;
             margin-bottom: 10px;
             text-transform: uppercase;
         }
         
-        /* 스크롤 하단 부가 정보 (점검표, 링크) */
         .secondary-section {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -101,9 +102,7 @@
 <body>
     <div class="container">
         
-        <!-- 핵심 3가지: 스크롤 전 첫 화면 표시 영역 -->
         <div class="first-screen">
-            
             <!-- 1. 소개 -->
             <div class="panel intro-panel">
                 <h1>나의 한 페이지</h1>
@@ -137,7 +136,7 @@
                 <div class="sar-item">
                     <h3>3. 빠른 실행력</h3>
                     <p><strong>상황:</strong> 나의 경험을 증명할 수 있는 웹 페이지를 외부에 신속하고 안정적으로 공유해야 했음.</p>
-                    <p><strong>행동:</strong> 복잡한 설정 없이 코드 저장소와 호스팅 서비스를 연동하는 최신 배포 파이프라인을 구축함.</p>
+                    <p><strong>행동:</strong> 복잡한 설정 없이 코드 저장소와 호스팅 서비스를 연동하는 배포 파이프라인을 구축함.</p>
                     <p><strong>결과:</strong> 코드 푸시 시 즉시 반영되는 지속적 배포(CD) 환경을 성공적으로 완성함.</p>
                 </div>
             </div>
@@ -146,7 +145,8 @@
             <div class="panel">
                 <h2>근거 자료</h2>
                 <p>이상 데이터 검증용 정규식 가이드 스니펫</p>
-                <div class="evidence-box">
+                <!-- 결함 1 수정: tabindex 추가로 키보드 접근성 확보 -->
+                <div class="evidence-box" tabindex="0" aria-label="정규식 코드 스니펫">
                     <div class="evidence-title">Regex snippet (식별 정보 제거됨)</div>
                     <code>
 // 정규식(Regex) 모드 활성화 후 사용<br>
@@ -163,11 +163,9 @@
                 </div>
             </div>
 
-        </div> <!-- first-screen 끝 -->
+        </div>
 
-        <!-- 스크롤 시 보이는 부가 영역 -->
         <div class="secondary-section">
-            
             <div class="panel checklist-panel">
                 <h2>공개 범위 점검표</h2>
                 <h3>✅ 공개 내용</h3>
@@ -188,14 +186,14 @@
                 <h2>접속 및 배포 정보</h2>
                 <p style="margin-bottom: 20px;">
                     <strong>서비스 URL:</strong><br>
-                    <a href="https://aleph-ivory.vercel.app/" target="_blank">https://aleph-ivory.vercel.app/</a>
+                    <!-- 결함 3 수정: 보안을 위한 rel 속성 추가 -->
+                    <a href="https://aleph-ivory.vercel.app/" target="_blank" rel="noopener noreferrer">https://aleph-ivory.vercel.app/</a>
                 </p>
                 <p>
                     <strong>GitHub 저장소:</strong><br>
-                    <a href="https://github.com/kdposcv-ship-it/aleph" target="_blank">https://github.com/kdposcv-ship-it/aleph</a>
+                    <a href="https://github.com/kdposcv-ship-it/aleph" target="_blank" rel="noopener noreferrer">https://github.com/kdposcv-ship-it/aleph</a>
                 </p>
             </div>
-
         </div>
 
     </div>
