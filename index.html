@@ -4,210 +4,242 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aleph - 나의 한 페이지</title>
-    <!-- 카드 4: 파비콘 에러 방지 -->
+    <!-- [카드 4] 파비콘 에러 방지 -->
     <link rel="icon" href="data:,">
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
     <style>
-        /* 카드 3: 가로 넘침 완벽 차단 */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        /* [카드 3] 가로 스크롤 완벽 차단 및 기본 리셋 */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-            line-height: 1.5;
-            color: #333;
-            background-color: #f4f7f6;
+            line-height: 1.4;
+            color: #1f2937; /* [카드 4] 명암비 4.5:1 이상 충족 */
+            background-color: #f3f4f6; 
             overflow-x: hidden; 
+            -webkit-font-smoothing: antialiased;
         }
-        /* 카드 3: 세로 공간 확보를 위해 container 상하 여백 축소 */
+        
+        /* [카드 3] 1366x768 세로 공간 최적화를 위한 콤팩트 여백 */
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px; 
+            padding: 24px 20px; 
         }
         
         .first-screen {
             display: grid;
-            grid-template-columns: 1fr 1.6fr;
+            grid-template-columns: 1fr 1.8fr;
             gap: 20px;
+            align-items: start;
         }
 
         @media (max-width: 900px) {
             .first-screen { grid-template-columns: 1fr; }
         }
 
-        /* 세로로 길어지는 것을 막기 위해 panel 안쪽 여백(padding) 축소 */
         .panel {
-            background: #fff;
-            border-radius: 12px;
-            padding: 25px 25px; 
-            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
-            height: fit-content;
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 24px; 
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);
+            position: relative;
+        }
+        .panel::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+            background: linear-gradient(90deg, #4f46e5, #3b82f6);
         }
         
-        /* 카드 4: 제목 단계 준수 (h1 -> h2 -> h3) */
-        h1 { font-size: 1.5rem; margin-bottom: 8px; color: #111; }
-        h2 { font-size: 1.2rem; margin-bottom: 15px; padding-bottom: 8px; border-bottom: 2px solid #eaeaea; color: #0056b3; }
-        h3 { font-size: 1rem; color: #222; margin-bottom: 8px; }
+        /* [카드 4] 제목 단계 건너뛰지 않음 (h1 -> h2 -> h3) */
+        h1 { font-size: 1.4rem; font-weight: 800; color: #111827; margin-bottom: 10px; }
+        h2 { font-size: 1.1rem; font-weight: 700; color: #4f46e5; margin-bottom: 12px; border-bottom: 1px solid #e5e7eb; padding-bottom: 6px; }
+        h3 { font-size: 0.95rem; font-weight: 600; color: #1f2937; margin-bottom: 8px; }
         
-        /* 카드 4: 명암비 4.5:1 이상 충족 (#444) */
-        p { font-size: 0.9rem; margin-bottom: 8px; color: #444; }
+        /* 좌측: 소개 및 공개 원칙 (카드 1) */
+        .intro-text { font-size: 0.9rem; line-height: 1.5; margin-bottom: 16px; color: #374151; }
         
-        .intro-panel p { line-height: 1.6; margin-bottom: 12px; }
-        .scope-list { padding-left: 20px; margin-bottom: 12px; }
-        .scope-list li { font-size: 0.85rem; color: #444; margin-bottom: 4px; }
-        
-        /* 링크 보안 및 키보드 초점 */
-        .intro-panel a {
-            color: #0056b3;
-            font-weight: bold;
-            text-decoration: none;
-            display: inline-block;
-            margin-top: 10px;
-            font-size: 0.9rem;
+        .scope-section { margin-top: 16px; }
+        .scope-list { list-style: none; margin-bottom: 14px; }
+        .scope-list li { 
+            font-size: 0.85rem; color: #4b5563; margin-bottom: 4px; 
+            display: flex; align-items: flex-start; gap: 6px;
         }
-        .intro-panel a:hover, .intro-panel a:focus {
-            text-decoration: underline;
-            outline: 2px solid #0056b3;
-            outline-offset: 4px;
-        }
+        .scope-list.public li::before { content: '✓'; color: #059669; font-weight: bold; }
+        .scope-list.private li::before { content: '🔒'; font-size: 0.8rem; opacity: 0.8; }
         
-        /* 카드 2: 상황·행동·결과(SAR) / 세로 공간 최적화 */
+        .btn-link {
+            display: inline-flex; justify-content: center; align-items: center;
+            background: #111827; color: #ffffff !important;
+            padding: 8px 16px; border-radius: 8px; font-size: 0.85rem; font-weight: 600;
+            text-decoration: none; margin-top: 8px; width: 100%; transition: background 0.2s;
+        }
+        /* [카드 4] 키보드 Tab 시각화 */
+        .btn-link:focus { outline: 2px solid #4f46e5; outline-offset: 3px; }
+        
+        /* 우측: 경험과 강점 (카드 2 - SAR 구조) */
         .sar-item {
-            background: #f8f9fa;
-            border-left: 4px solid #0056b3;
-            padding: 15px 20px;
-            margin-bottom: 15px;
-            border-radius: 0 8px 8px 0;
-            transition: background 0.2s;
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            padding: 14px 18px;
+            margin-bottom: 12px;
+            border-radius: 12px;
         }
         .sar-item:last-child { margin-bottom: 0; }
         .sar-item:focus-within, .sar-item:focus {
-            outline: 2px solid #0056b3;
-            outline-offset: -2px;
-            background: #f1f3f5;
-        }
-        .sar-item strong { 
-            color: #111; 
-            display: inline-block; 
-            width: 40px;
-        }
-        .sar-item p { margin: 4px 0; font-size: 0.85rem; line-height: 1.4; color: #333; }
-
-        /* 카드 5: 상호작용 및 움직임 줄이기 */
-        .expand-btn {
-            background: none;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            padding: 4px 10px;
-            font-size: 0.8rem;
-            color: #444;
-            cursor: pointer;
-            margin-top: 8px;
-            font-family: inherit;
-        }
-        .expand-btn:hover, .expand-btn:focus {
-            outline: 2px solid #0056b3;
-            background: #e9ecef;
+            outline: 2px solid #4f46e5; background: #ffffff; border-color: #c7d2fe;
         }
         
+        .sar-row { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 5px; }
+        .sar-label { 
+            display: inline-block; font-size: 0.7rem; font-weight: 700; color: #4f46e5; 
+            background: #e0e7ff; padding: 2px 6px; border-radius: 4px; min-width: 38px; text-align: center;
+        }
+        .sar-desc { font-size: 0.85rem; color: #374151; line-height: 1.4; flex: 1; }
+
+        /* [카드 2 & 3] 근거 자료 (첫 화면에 노출) */
+        .evidence-box {
+            margin-top: 8px; padding: 8px 12px;
+            background: #1e293b; color: #e2e8f0;
+            border-radius: 6px; font-size: 0.75rem; font-family: monospace;
+        }
+        .evidence-label { display: block; font-size: 0.7rem; color: #94a3b8; font-weight: bold; margin-bottom: 4px; }
+        .evidence-box code { color: #38bdf8; }
+
+        /* [카드 5] 상호작용(아코디언) 버튼 및 애니메이션 */
+        .expand-btn {
+            display: inline-flex; align-items: center; gap: 4px;
+            background: none; border: none; padding: 4px 0;
+            font-size: 0.8rem; font-weight: 600; color: #4f46e5;
+            cursor: pointer; margin-top: 4px; font-family: inherit;
+        }
+        .expand-btn .chevron { transition: transform 0.3s ease; font-size: 0.65rem; }
+        .expand-btn[aria-expanded="true"] .chevron { transform: rotate(-180deg); }
+        .expand-btn:focus { outline: 2px solid #4f46e5; outline-offset: 4px; border-radius: 4px; }
+        
         .expand-content {
-            max-height: 0;
-            overflow: hidden;
-            opacity: 0;
-            margin-top: 0;
+            max-height: 0; overflow: hidden; opacity: 0;
             transition: max-height 0.3s ease-out, opacity 0.3s ease-out, margin-top 0.3s ease-out;
         }
-        .expand-content.open {
-            max-height: 150px; 
-            opacity: 1;
-            margin-top: 8px;
-        }
+        .expand-content.open { max-height: 100px; opacity: 1; margin-top: 8px; }
         .expand-content p {
-            color: #555;
-            background: #eef2f5;
-            padding: 8px 12px;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            margin: 0;
+            color: #4b5563; background: #e0e7ff; border-left: 3px solid #4f46e5;
+            padding: 10px 12px; border-radius: 0 6px 6px 0; font-size: 0.8rem;
         }
 
+        /* [카드 5] 움직임 줄이기 (Prefers Reduced Motion) */
         @media (prefers-reduced-motion: reduce) {
-            .expand-content {
-                transition: none !important;
-            }
+            .expand-content, .expand-btn .chevron { transition: none !important; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- 1366x768에서도 스크롤 없이 보이도록 제어된 레이아웃 -->
+        <!-- 첫 화면에 스크롤 없이 모두 보이도록 2단 Grid 구성 (T01-C10) -->
         <div class="first-screen">
             
-            <!-- 좌측 패널: 소개 및 카드 1 요구사항 -->
-            <div class="panel intro-panel">
+            <!-- 1. 소개 및 공개 범위 -->
+            <div class="panel">
                 <h1>나의 한 페이지</h1>
                 <h2>소개</h2>
-                <p>이 페이지는 잠재적 협업자에게 <strong>비효율을 개선하고 주도적으로 문제를 해결하는 저의 실제 업무 스타일</strong>을 보여주기 위함입니다.</p>
+                <p class="intro-text">
+                    이 페이지는 잠재적 협업자에게 <strong>비효율을 개선하고 주도적으로 문제를 해결하는 저의 실제 업무 스타일</strong>을 보여주기 위함입니다.
+                </p>
                 
-                <h2 style="margin-top: 20px;">페이지 공개 원칙</h2>
-                <h3 style="margin-top: 0;">✅ 공개하는 정보</h3>
-                <ul class="scope-list">
-                    <li>업무 중 비효율을 개선한 구체적 경험</li>
-                    <li>주도적인 문제 접근 및 문서화 습관</li>
-                    <li>새로운 기술 환경(CI/CD) 적응 사례</li>
-                </ul>
-                
-                <h3 style="margin-top: 15px;">🔒 비공개 정보</h3>
-                <ul class="scope-list">
-                    <li>직장명, 동료 실명 등 특정 가능한 식별 정보</li>
-                    <li>내부 소스 코드 및 실제 고객 데이터</li>
-                    <li>민감한 개인 연락처 (전화번호 등)</li>
-                </ul>
+                <div class="scope-section">
+                    <h2>페이지 공개 원칙</h2>
+                    <h3 style="margin-top: 0;">공개하는 정보</h3>
+                    <ul class="scope-list public">
+                        <li>업무 중 비효율을 개선한 구체적 경험</li>
+                        <li>주도적인 문제 접근 및 문서화 습관</li>
+                        <li>새로운 기술 환경(CI/CD) 적응 사례</li>
+                    </ul>
+                    
+                    <h3 style="margin-top: 14px;">공개하지 않는 정보</h3>
+                    <ul class="scope-list private">
+                        <li>직장명, 동료 실명 등 특정 가능한 식별 정보</li>
+                        <li>내부 소스 코드 및 실제 고객 데이터</li>
+                        <li>민감한 개인 연락처 (전화번호 등)</li>
+                    </ul>
+                </div>
 
-                <a href="https://github.com/kdposcv-ship-it/aleph" target="_blank" rel="noopener noreferrer">
+                <a href="https://github.com/kdposcv-ship-it/aleph" class="btn-link" target="_blank" rel="noopener noreferrer">
                     GitHub 저장소 방문
                 </a>
             </div>
 
-            <!-- 우측 패널: 카드 2 요구사항 (SAR 구조) -->
+            <!-- 2. 활동 (SAR) 및 3. 근거 -->
             <div class="panel">
                 <h2 style="margin-bottom: 12px;">경험과 강점</h2>
                 
+                <!-- 항목 1: 효율성 추구 (여기에 근거와 상호작용이 연결됨) -->
                 <div class="sar-item" tabindex="0">
                     <h3>1. 주어진 환경에 얽매이지 않는 효율성 추구</h3>
-                    <p><strong>상황:</strong> 이상 데이터 검증 시 단순 에디터(메모장)로 인해 많은 시간을 소모함.</p>
-                    <p><strong>행동:</strong> 대용량 처리와 패턴 검색에 유리한 에디터(Sublime Text)를 찾아 도입함.</p>
-                    <p><strong>결과:</strong> 이상 문자열을 빠르게 찾아내어 데이터 검증 시간을 단축함.</p>
+                    <div class="sar-row">
+                        <span class="sar-label">상황</span>
+                        <div class="sar-desc">이상 데이터 검증 시 기본 에디터(메모장) 사용으로 많은 시간을 소모함.</div>
+                    </div>
+                    <div class="sar-row">
+                        <span class="sar-label">행동</span>
+                        <div class="sar-desc">대용량 처리와 패턴 검색에 유리한 특화 에디터를 직접 탐색 후 도입함.</div>
+                    </div>
+                    <div class="sar-row">
+                        <span class="sar-label">결과</span>
+                        <div class="sar-desc">이상 문자열을 빠르게 식별하여 데이터 검증 소요 시간을 단축함.</div>
+                    </div>
                     
-                    <!-- 카드 5 요구사항 (상호작용) -->
+                    <!-- [카드 2] 근거 (첫 화면 노출) -->
+                    <div class="evidence-box" tabindex="0" aria-label="근거 자료: 이상 문자열 검출 정규식">
+                        <span class="evidence-label">🔗 관찰 가능한 근거 (이상 문자열 검출용 Regex)</span>
+                        <code>[^\x00-\x7F가-힣ㄱ-ㅎㅏ-ㅣ] // 비정상 유니코드 감지</code>
+                    </div>
+
+                    <!-- [카드 5] 상호작용 (마우스/키보드 공용) -->
                     <button class="expand-btn" aria-expanded="false" aria-controls="detail-1">
-                        상세 맥락 펼치기 ▼
+                        상세 맥락 보기 <span class="chevron">▼</span>
                     </button>
                     <div id="detail-1" class="expand-content">
-                        <p>💡 평소 비효율을 싫어하여, 공통 툴 폴더를 직접 탐색해 작업 목적에 가장 적합한 도구를 세팅해 문제를 해결했습니다.</p>
+                        <p>💡 사용자가 입력하는 데이터 중 이상 문자열 확인이 잦았습니다. 다른 팀원과 달리 공통 툴 폴더에서 Sublime Text를 찾아 활용해 검증 작업을 훨씬 쉽게 처리했습니다.</p>
                     </div>
                 </div>
                 
+                <!-- 항목 2: 문서화 -->
                 <div class="sar-item" tabindex="0">
                     <h3>2. 반복되는 문제의 문서화 및 체계화</h3>
-                    <p><strong>상황:</strong> 오류 해결책이 구두로만 전달되어 반복 발생 시 대응이 지연됨.</p>
-                    <p><strong>행동:</strong> 검증 방법과 정규식 패턴을 마크다운 형태의 가이드 문서로 정리함.</p>
-                    <p><strong>결과:</strong> 유사 이슈 발생 시 팀 전체가 가이드를 바탕으로 즉각 대응하게 됨.</p>
+                    <div class="sar-row">
+                        <span class="sar-label">상황</span>
+                        <div class="sar-desc">오류 해결책이 구두로만 전달되어, 반복 발생 시 대응이 지연됨.</div>
+                    </div>
+                    <div class="sar-row">
+                        <span class="sar-label">행동</span>
+                        <div class="sar-desc">검증 방법과 정규식 패턴을 마크다운 형태의 가이드 문서로 정리함.</div>
+                    </div>
+                    <div class="sar-row">
+                        <span class="sar-label">결과</span>
+                        <div class="sar-desc">유사 이슈 발생 시 가이드를 바탕으로 즉각 대응하는 환경을 구축함.</div>
+                    </div>
                 </div>
 
+                <!-- 항목 3: 배포/실행력 -->
                 <div class="sar-item" tabindex="0">
                     <h3>3. 새로운 기술 환경에 대한 빠른 실행력</h3>
-                    <p><strong>상황:</strong> 개인 페이지를 외부에 신속하고 안정적으로 공유해야 했음.</p>
-                    <p><strong>행동:</strong> 코드 저장소(GitHub)와 Vercel을 연동하는 배포 환경을 학습해 적용함.</p>
-                    <p><strong>결과:</strong> 코드 푸시 시 즉시 반영되는 자동 배포(CI/CD) 파이프라인을 완성함.</p>
+                    <div class="sar-row">
+                        <span class="sar-label">상황</span>
+                        <div class="sar-desc">개인 페이지를 외부에 신속하고 안정적으로 공유할 시스템이 필요했음.</div>
+                    </div>
+                    <div class="sar-row">
+                        <span class="sar-label">행동</span>
+                        <div class="sar-desc">코드 저장소와 Vercel을 연동하는 모던 프론트엔드 배포 환경을 적용함.</div>
+                    </div>
+                    <div class="sar-row">
+                        <span class="sar-label">결과</span>
+                        <div class="sar-desc">푸시 시 즉각 반영되는 자동화된 배포(CI/CD) 파이프라인을 완성함.</div>
+                    </div>
                 </div>
             </div>
 
         </div>
     </div>
 
+    <!-- [카드 5] 상호작용 JavaScript -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const btn = document.querySelector('.expand-btn');
@@ -216,14 +248,13 @@
             btn.addEventListener('click', function() {
                 const isExpanded = btn.getAttribute('aria-expanded') === 'true';
                 
+                // ARIA 속성 토글 (접근성)
                 btn.setAttribute('aria-expanded', !isExpanded);
                 
                 if (!isExpanded) {
                     content.classList.add('open');
-                    btn.innerHTML = '상세 맥락 접기 ▲';
                 } else {
                     content.classList.remove('open');
-                    btn.innerHTML = '상세 맥락 펼치기 ▼';
                 }
             });
         });
