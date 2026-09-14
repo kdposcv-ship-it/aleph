@@ -93,16 +93,10 @@
             display: inline-block; font-size: 0.7rem; font-weight: 700; color: #4f46e5; 
             background: #e0e7ff; padding: 2px 6px; border-radius: 4px; min-width: 38px; text-align: center;
         }
+        /* 근거 전용 라벨 색상 (시각적 분리) */
+        .sar-label.evidence { background: #111827; color: #ffffff; }
+        
         .sar-desc { font-size: 0.85rem; color: #374151; line-height: 1.4; flex: 1; }
-
-        /* [카드 2 & 3] 근거 자료 (첫 화면에 노출) */
-        .evidence-box {
-            margin-top: 8px; padding: 8px 12px;
-            background: #1e293b; color: #e2e8f0;
-            border-radius: 6px; font-size: 0.75rem; font-family: monospace;
-        }
-        .evidence-label { display: block; font-size: 0.7rem; color: #94a3b8; font-weight: bold; margin-bottom: 4px; }
-        .evidence-box code { color: #38bdf8; }
 
         /* [카드 5] 상호작용(아코디언) 버튼 및 애니메이션 */
         .expand-btn {
@@ -122,7 +116,7 @@
         .expand-content.open { max-height: 100px; opacity: 1; margin-top: 8px; }
         .expand-content p {
             color: #4b5563; background: #e0e7ff; border-left: 3px solid #4f46e5;
-            padding: 10px 12px; border-radius: 0 6px 6px 0; font-size: 0.8rem;
+            padding: 10px 12px; border-radius: 0 6px 6px 0; font-size: 0.8rem; margin: 0;
         }
 
         /* [카드 5] 움직임 줄이기 (Prefers Reduced Motion) */
@@ -133,7 +127,7 @@
 </head>
 <body>
     <div class="container">
-        <!-- 첫 화면에 스크롤 없이 모두 보이도록 2단 Grid 구성 (T01-C10) -->
+        <!-- 첫 화면에 스크롤 없이 모두 보이도록 구성 (T01-C10) -->
         <div class="first-screen">
             
             <!-- 1. 소개 및 공개 범위 -->
@@ -166,11 +160,11 @@
                 </a>
             </div>
 
-            <!-- 2. 활동 (SAR) 및 3. 근거 -->
+            <!-- 2. 활동 (SAR) 및 3. 근거 (문장형) -->
             <div class="panel">
                 <h2 style="margin-bottom: 12px;">경험과 강점</h2>
                 
-                <!-- 항목 1: 효율성 추구 (여기에 근거와 상호작용이 연결됨) -->
+                <!-- 항목 1: 효율성 추구 (여기에 '문장형 근거'와 상호작용이 연결됨) -->
                 <div class="sar-item" tabindex="0">
                     <h3>1. 주어진 환경에 얽매이지 않는 효율성 추구</h3>
                     <div class="sar-row">
@@ -185,13 +179,12 @@
                         <span class="sar-label">결과</span>
                         <div class="sar-desc">이상 문자열을 빠르게 식별하여 데이터 검증 소요 시간을 단축함.</div>
                     </div>
-                    
-                    <!-- [카드 2] 근거 (첫 화면 노출) -->
-                    <div class="evidence-box" tabindex="0" aria-label="근거 자료: 이상 문자열 검출 정규식">
-                        <span class="evidence-label">🔗 관찰 가능한 근거 (이상 문자열 검출용 Regex)</span>
-                        <code>[^\x00-\x7F가-힣ㄱ-ㅎㅏ-ㅣ] // 비정상 유니코드 감지</code>
+                    <!-- [카드 2 & 9] 소개 항목을 증명하는 문장형 근거 추가 -->
+                    <div class="sar-row" style="margin-top: 8px;">
+                        <span class="sar-label evidence">근거</span>
+                        <div class="sar-desc" style="font-weight: 600;">메모장 대신 Sublime Text를 도입하여 사용자 입력 데이터 내 이상 문자열 검출 과정을 실제로 개선한 업무 기록.</div>
                     </div>
-
+                    
                     <!-- [카드 5] 상호작용 (마우스/키보드 공용) -->
                     <button class="expand-btn" aria-expanded="false" aria-controls="detail-1">
                         상세 맥락 보기 <span class="chevron">▼</span>
